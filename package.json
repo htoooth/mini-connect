@@ -1,7 +1,7 @@
 {
   "name": "mini-connect",
   "description": "High performance middleware framework like connect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "htoooth (http://www.cnblogs.com/htoooth/)",
   "keywords": [
     "middleware"
@@ -13,6 +13,7 @@
     "istanbul": "0.4.5",
     "mocha": "3.2.0"
   },
+  "repository": "htoooth/mini-connect",
   "license": "MIT",
   "files": [
     "LICENSE",
