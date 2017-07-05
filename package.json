@@ -1,0 +1,30 @@
+{
+  "name": "mini-connect",
+  "description": "High performance middleware framework like connect",
+  "version": "1.0.0",
+  "author": "htoooth (http://www.cnblogs.com/htoooth/)",
+  "keywords": [
+    "middleware"
+  ],
+  "dependencies": {
+    "debug": "2.6.3"
+  },
+  "devDependencies": {
+    "istanbul": "0.4.5",
+    "mocha": "3.2.0"
+  },
+  "license": "MIT",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "scripts": {
+    "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/"
+  }
+}
