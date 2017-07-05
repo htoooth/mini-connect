@@ -1,9 +1,9 @@
-# mini-connect
+# connect2
 
-  mini-connect is an extensible framework for [node](http://nodejs.org) using "plugins" known as _middleware_ like [connect](https://github.com/senchalabs/connect).
+  connect2 is an extensible framework for [node](http://nodejs.org) using "plugins" known as _middleware_ like [connect](https://github.com/senchalabs/connect).
 
 ```js
-var connect = require('mini-connect');
+var connect = require('connect2');
 
 var app = connect();
 
@@ -33,7 +33,7 @@ Connect is a simple framework to glue together various "middleware" to handle so
 ### Install Connect
 
 ```sh
-$ npm install mini-connect
+$ npm install connect2
 ```
 
 ### Create an app
@@ -101,15 +101,14 @@ app.use(function onerror(err,ctx, req, res, next) {
 ```
 ## API
 
-The Mini-connect API is very minimalist, enough to create an app and add a chain
-of middleware.
+The connect2 API is very similar to connect.
 
-When the `mini-connect` module is required, a function is returned that will construct
+When the `connect2` module is required, a function is returned that will construct
 a new app when called.
 
 ```js
 // require module
-var connect = require('mini-connect')
+var connect = require('connect2')
 
 // create app
 var app = connect([opts])
@@ -118,7 +117,7 @@ var app = connect([opts])
 ### connect([opts])
 
 The `opts` object has three functions: `finalHandler(ctx, req, res)`, `dispatch(dispatchCtx, route, req)` and `dispatchContext()`. The `finalHandle`
-function must be return a function `function(err){...}`. The returned function is the last function in mini-connect middleware. It can handle error. The `dispatch`
+function must be return a function `function(err){...}`. The returned function is the last function in connect2 middleware. It can handle error. The `dispatch`
 function return a `Boolean` value. if it return `true`, call this middleware 's `handle` or `fn`, else skip. The `dispatchContext` function return a object what pass to `dispatch` function as first parameter. You can give some status in it. you can find whole declare in `test\server.js`. These are some code:
 
 ```js
