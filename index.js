@@ -54,7 +54,7 @@ proto.use = function(route, fn) {
     path = '';
   }
 
-  if (typeof handle.handle == 'function') {
+  if (typeof handle.handle === 'function') {
     let server = handle;
     server.route = path;
 
