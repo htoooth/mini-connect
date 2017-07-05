@@ -26,6 +26,12 @@ proto.handle = function(ctx, req, res, out) {
   let dispatchContext = (this.dispatchContext && this.dispatchContext()) || {};
   let self = this;
 
+  Object.assign(ctx, {
+    app: this,
+    req: req,
+    res: res
+  })
+
   let next = function(err) {
     let layer = self.stack[i++]
 
