@@ -99,24 +99,6 @@ app.use(function onerror(err,ctx, req, res, next) {
   // an error occurred!
 });
 ```
-
-### Create a server from the app
-
-The last step is to actually use the Connect app in a server. The `.listen()` method
-is a convenience to start a HTTP server (and is identical to the `http.Server`'s `listen`
-method in the version of Node.js you are running).
-
-```js
-var server = app.listen(port);
-```
-
-The app itself is really just a function with three arguments, so it can also be handed
-to `.createServer()` in Node.js.
-
-```js
-var server = http.createServer(app);
-```
-
 ## API
 
 The Mini-connect API is very minimalist, enough to create an app and add a chain
@@ -127,7 +109,7 @@ a new app when called.
 
 ```js
 // require module
-var connect = require('connect')
+var connect = require('mini-connect')
 
 // create app
 var app = connect([opts])
