@@ -46,12 +46,24 @@ proto.handle = function(ctx, req, res, out) {
 }
 
 proto.use = function(route, fn) {
+  let handle = fn;
+  let path = route;
+
   if (typeof route !== 'string') {
-    fn = route;
-    route = '';
+    handle = route;
+    path = '';
   }
 
-  this.stack.push({handle: fn, route});
+  if (typeof handle.handle == 'function') {
+    let server = handle;
+    server.route = path;
+
+    handle = function(ctx, req, res, next) {
+      server.handle(ctx, req, res, next);
+    };
+  }
+
+  this.stack.push({handle: handle, route: path});
 }
 
 function call(handle, route, err, ctx, req, res, next) {
