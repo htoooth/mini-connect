@@ -23,6 +23,22 @@ describe('app', function(){
     app.emit('foo');
   });
 
+  it('should route default value is empty string', function(done){
+    assert.equal(app.route, '');
+    done();
+  });
+
+  it('should change route default value', function(done){
+    app = connect({
+      defaultRoute() {
+        return '/';
+      }
+    })
+
+    assert.equal(app.route, '/');
+    done();
+  });
+
   it('should be a callable function', function(done){
     var app = connect();
 

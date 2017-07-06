@@ -1,5 +1,5 @@
 const EventEmitter = require('events').EventEmitter;
-const debug = require('debug')('connect:dispatcher');
+const debug = require('debug')('connect2:dispatcher');
 
 const proto = {};
 
@@ -9,6 +9,8 @@ var defer = typeof setImmediate === 'function'
   ? setImmediate
   : function(fn){ process.nextTick(fn.bind.apply(fn, arguments)) }
 
+var DEFAULT_ROUTE = '';
+
 function createServer(opts) {
   function app (ctx, req, res, next) { app.handle(ctx, req, res, next)}
 
@@ -16,7 +18,7 @@ function createServer(opts) {
   Object.assign(app, opts);
   Object.assign(app, EventEmitter.prototype);
   app.stack = [];
-  app.route = '';
+  app.route = (app.defaultRoute && app.defaultRoute()) || DEFAULT_ROUTE;
   return app;
 }
 
@@ -28,8 +30,6 @@ proto.handle = function(ctx, req, res, out) {
 
   Object.assign(ctx, {
     app: this,
-    req: req,
-    res: res
   })
 
   let next = function(err) {
@@ -57,7 +57,7 @@ proto.use = function(route, fn) {
 
   if (typeof route !== 'string') {
     handle = route;
-    path = '';
+    path = (this.defaultRoute && this.defaultRoute()) || DEFAULT_ROUTE;
   }
 
   if (typeof handle.handle === 'function') {

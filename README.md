@@ -118,7 +118,7 @@ var app = connect([opts])
 
 The `opts` object has three functions: `finalHandler(ctx, req, res)`, `dispatch(dispatchCtx, route, req)` and `dispatchContext()`. The `finalHandle`
 function must be return a function `function(err){...}`. The returned function is the last function in connect2 middleware. It can handle error. The `dispatch`
-function return a `Boolean` value. if it return `true`, call this middleware 's `handle` or `fn`, else skip. The `dispatchContext` function return a object what pass to `dispatch` function as first parameter. You can give some status in it. you can find whole declare in `test\server.js`. These are some code:
+function return a `Boolean` value. if it return `true`, call this middleware 's `handle` or `fn`, else skip. The `dispatchContext` function return a object what pass to `dispatch` function as first parameter. You can give some status in it. you can find whole declare in `test\server.js`. The `defaultRoute` function set route initial value. The app's default route is `empty string` `''`. You can change it to `/` or anything you want. Hare are some code:
 
 ```js
 var app = connect({
@@ -132,6 +132,10 @@ var app = connect({
   },
   dispatchContext: function() {
     return {};
+  },
+  defaultRoute: function() {
+    // default value is `empty string`;
+    return '/';
   }
 })
 ```
