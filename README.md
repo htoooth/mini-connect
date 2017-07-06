@@ -2,6 +2,8 @@
 
   connect2 is an extensible framework for [node](http://nodejs.org) using "plugins" known as _middleware_ like [connect](https://github.com/senchalabs/connect).
 
+  [中文版说明](./README_ZH.md)
+
 ```js
 var connect = require('connect2');
 
@@ -9,6 +11,7 @@ var app = connect();
 
 app.use(function(ctx, req, res, next){
   console.log('md1')
+  next()
 });
 
 app.use(function(ctx, req, res) {
