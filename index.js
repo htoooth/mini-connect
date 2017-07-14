@@ -19,6 +19,7 @@ function createServer(opts) {
   Object.assign(app, EventEmitter.prototype);
   app.stack = [];
   app.route = (app.defaultRoute && app.defaultRoute()) || DEFAULT_ROUTE;
+  app.parent = null;
   return app;
 }
 
@@ -29,8 +30,8 @@ proto.handle = function(ctx, req, res, out) {
   let self = this;
 
   Object.assign(ctx, {
-    app: this,
-  })
+    app: this
+  });
 
   let next = function(err) {
     let layer = self.stack[i++]
@@ -39,6 +40,10 @@ proto.handle = function(ctx, req, res, out) {
       defer(done, err)
       return;
     }
+
+    Object.assign(req, {
+      route: layer.route
+    });
 
     if (layer.route && self.dispatch && !self.dispatch(dispatchContext, layer.route, req)) {
       return next(err)
@@ -51,25 +56,37 @@ proto.handle = function(ctx, req, res, out) {
   next();
 }
 
+proto.path = function() {
+  return this.parent ? this.parent.route + this.route : this.route;
+}
+
 proto.use = function(route, fn) {
-  let handle = fn;
+  let handles = Array.prototype.slice.call(arguments, 1);
   let path = route;
+  let self = this;
 
   if (typeof route !== 'string') {
-    handle = route;
+    handles = Array.from(arguments);
     path = (this.defaultRoute && this.defaultRoute()) || DEFAULT_ROUTE;
   }
 
-  if (typeof handle.handle === 'function') {
-    let server = handle;
-    server.route = path;
-
-    handle = function(ctx, req, res, next) {
-      server.handle(ctx, req, res, next);
-    };
+  if (handles.length === 0) {
+    throw new TypeError('app.use() requires middleware functions');
   }
 
-  this.stack.push({handle: handle, route: path});
+  handles.forEach(function(handle) {
+    if (typeof handle.handle === 'function') {
+      let server = handle;
+      server.route = path;
+      server.parent = self;
+
+      handle = function(ctx, req, res, next) {
+        server.handle(ctx, req, res, next);
+      };
+    }
+
+    self.stack.push({handle: handle, route: path});
+  });
 }
 
 function call(handle, route, err, ctx, req, res, next) {
